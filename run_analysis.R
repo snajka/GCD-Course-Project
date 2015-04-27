@@ -11,6 +11,7 @@ if (!file.exists(localData)) {
 library(tidyr)
 library(dplyr)
 library(readr) # read_table is faster version of read.table
+library(reshape2)
 
 ## Load the data files into variables
 x_test <- read_table("./UCI HAR Dataset/test/X_test.txt", col_names = FALSE)
@@ -61,7 +62,7 @@ df$activity <- factor(df$activity,
                                  "LAYING"))
 
 ## Create an independent tidy data set with averages of each activity. (Requirement 5)
-dfMelt <- melt(df, id=c("subject","activity"), mean)
+dfMelt <- melt(df, id=c("subject","activity"))
 df2 <- dcast(dfMelt, subject+activity~variable, mean)
 
 write.table(df2,
